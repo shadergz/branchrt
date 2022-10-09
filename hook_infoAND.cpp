@@ -29,7 +29,7 @@ Hook_I32_t Native_Info::notify_Event_Sync(Notify_Event_t event_status, const cha
     return native_Notify(event_status, notify_local);
 }
 
-bool Native_Info::find_Base_Library(const char* native_name) {
+bool Native_Info::find_Base_Address(const char* native_name) {
     if (native_name == nullptr) {
         notify_Event_Sync(HOOK_FAILED, "No library name has been passed");
         return false;
