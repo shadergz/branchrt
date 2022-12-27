@@ -55,11 +55,11 @@ bool Native_Info::find_Base_Address(const char* native_name) {
     constexpr short MAP_FILE_DATA_SZ = 0x2ff;
     char map_content[MAP_FILE_DATA_SZ];
 
-    #define MAPS_ENTRY_FOREACH(output, file)\
+    #define MAP_ENTRIES_FOREACH(output, file)\
         for (; fgets(output, sizeof(output), file) != nullptr;)
     #define STOP break
 
-    MAPS_ENTRY_FOREACH(map_content, map_file) {
+    MAP_ENTRIES_FOREACH(map_content, map_file) {
         /* What we're interesting to search for e.g: 
          * 7fb2cf9c2000-7fb2cf9ea000 r--p 00000000 00:19 31795                      /usr/lib/x86_64-linux-gnu/libc.so.6
          * 7fb2cf9c2000 is the base address pointer that we're trying to locate.
