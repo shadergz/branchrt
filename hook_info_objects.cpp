@@ -8,13 +8,13 @@
 #include <fcntl.h>
 #include <errno.h>
 
-#include <hookRuntime/ObjectNativeInfo.h>
+#include <blrta64/object_native_info.h>
 
 /* Almost 64 bytes are sufficiently enough for store all full pathname for the native
  * library buffer, even with a bigger native name it's provide! */
 constexpr std::uint16_t NATIVE_LIB_FSZ = 64 * sizeof(char); 
 
-namespace hookRuntime::ObjectInfo {
+namespace RuntimeHook::ObjectInfo {
 
 Hook_I32_t Native_Info::event_Sync(Hook_Event_t event_status, const char* format, ...) {
     constexpr short HOOK_EVENT_SZ = 0x10f;

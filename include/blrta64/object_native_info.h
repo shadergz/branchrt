@@ -2,12 +2,16 @@
 
 #include <cstdint>
 
-namespace hookRuntime::ObjectInfo {
+namespace RuntimeHook::ObjectInfo {
 
 typedef int Hook_I32_t;
 typedef uintptr_t Native_Addr_t;
 
-typedef enum { HOOK_SUCCESS = 00, HOOK_INFO, HOOK_FAILED } Hook_Event_t;
+typedef enum { 
+    HOOK_SUCCESS = 00, 
+    HOOK_INFO, 
+    HOOK_FAILED 
+} Hook_Event_t;
 
 struct Native_Info {
 

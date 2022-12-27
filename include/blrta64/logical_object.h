@@ -1,13 +1,13 @@
 #pragma once
 
-#include "ObjectNativeInfo.h"
+#include "object_native_info.h"
 
 /*
     constexpr const char* LIB_PREFIX = "lib";
     constexpr const char* LIB_SUFFIX = ".so";
 */
 
-namespace hookRuntime::LogicalObject {
+namespace RuntimeHook::LogicalObject {
 
 struct Native_Object : public ObjectInfo::Native_Info {
     public:
