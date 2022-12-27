@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.18)
-project(hookRuntimeA64)
+project(BL-RuntimeA64v8a)
 
 add_library(blrta64 STATIC)
 target_sources(blrta64 PRIVATE hook_info_objects.cpp)
