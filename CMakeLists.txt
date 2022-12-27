@@ -1,12 +1,12 @@
 cmake_minimum_required(VERSION 3.18)
 project(hookRuntimeA64)
 
-add_library(hookRuntimeA64 STATIC)
-target_sources(hookRuntimeA64 PRIVATE hook_infoAND.cpp)
+add_library(blrta64 STATIC)
+target_sources(blrta64 PRIVATE hook_info_objects.cpp)
 
-target_include_directories(hookRuntimeA64
-    PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/inc
-    PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/inc>
+target_include_directories(blrta64
+    PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include
+    PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
         $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDE_DIR}>
 )
 
