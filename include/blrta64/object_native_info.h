@@ -8,7 +8,7 @@ typedef int Hook_I32_t;
 typedef uintptr_t Native_Addr_t;
 
 typedef enum { 
-    HOOK_SUCCESS = 00, 
+    HOOK_SUCCESS, 
     HOOK_INFO, 
     HOOK_FAILED 
 } Hook_Event_t;
@@ -16,8 +16,8 @@ typedef enum {
 struct Native_Info {
 
 public:
-    Native_Info() {}
-    ~Native_Info() {}
+    Native_Info() = default;
+    ~Native_Info() = default;
 
     auto get_Object_Name() const {
         return m_Native_Lib_Name;
@@ -35,10 +35,10 @@ public:
 protected:
 
     virtual Hook_I32_t event_Release(Hook_Event_t status, const char* message) {
-        /* This function should t be implemented by the derivate struct or class */
-        int* __this_can_be_call = nullptr;
-        *__this_can_be_call = 0;
-        return *__this_can_be_call;
+        /* This function shouldn't be implemented by the derivate struct or class */
+        int* __cant_be_called = nullptr;
+        *__cant_be_called = 0;
+        return *__cant_be_called;
     }
 
     Hook_I32_t event_Sync(Hook_Event_t event_status, const char* format, ...);
