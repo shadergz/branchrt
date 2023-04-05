@@ -1,10 +1,11 @@
-# BL-RuntimeA64v8a
+# bra64rt
 
-A custom hook system for ARMv8 64bits variant based processors 🪝!
+A custom trampoline based hook system for ARM devices, more specific ARMv8-a variant or 64 bits ARM processors, all others variants of the version 8 must work as expected! Lets hook 🪝!
 
-## Missing features
+## Missing features (TODO List)
 
-- [ ] Dynamic memory allocation system (for store trampolines's contents)
+- [ ] Dynamic memory reusable trampolines system (for store trampolines contents)
 - [ ] Basic hooking methods
 - [ ] Unhook system methods
+- [ ] Memory protection behaviours modifier
 
