@@ -12,29 +12,29 @@
 
 /* Almost 64 bytes are sufficiently enough to store all full pathname for the native
  * library buffer, even with a bigger native name it's provide! */
-constexpr std::uint16_t NATIVE_LIB_FSZ = 64 * sizeof(char); 
+constexpr std::uint16_t NATIVE_LIBNAME_FSZ = 64 * sizeof (char); 
 
 namespace RuntimeHook::ObjectInfo {
 
-Hook_I32_t Native_Info::event_Sync(const Hook_Event_t event_status, const char* format, ...) {
+Hook_I32_t Native_Info::a64_HookMessage(const Hook_Event_t event_status, const char* format, ...) {
     constexpr short HOOK_EVENTBF_SZ = 0x10f;
     va_list vars;
     va_start(vars, format);
-    char event_local_message[HOOK_EVENTBF_SZ];
+    char local_msgbf[HOOK_EVENTBF_SZ];
 
-    vsnprintf(event_local_message, sizeof event_local_message, format, vars);
+    vsnprintf(local_msgbf, sizeof local_msgbf, format, vars);
     va_end(vars);
 
-    return event_Release(event_status, event_local_message);
+    return hookMessage_Release(event_status, local_msgbf);
 }
 
 bool Native_Info::find_Base_Address(const char* native_name) {
     if (native_name == nullptr) {
-        event_Sync(HOOK_EVENT_FAILED, "No library name has been passed\n");
+        a64_HookMessage(HOOK_EVENT_FAILED, "No library name has been passed\n");
         return false;
     }
-    char native_library[NATIVE_LIB_FSZ / 2];
-    char LFS_libMap_filename[NATIVE_LIB_FSZ];
+    char native_library[NATIVE_LIBNAME_FSZ / 2];
+    char LFS_libMap_filename[NATIVE_LIBNAME_FSZ];
 
     memcpy(native_library, native_name, sizeof(native_library));
     /* On Linux File System hierarchy there's a file into proc high-level communication pseudo-file thats 
@@ -47,10 +47,10 @@ bool Native_Info::find_Base_Address(const char* native_name) {
     snprintf(LFS_libMap_filename, sizeof(LFS_libMap_filename), "/proc/%d/maps", getpid());
     #endif
 
-    event_Sync(HOOK_EVENT_INFO, "Opening proc map file in %s to search for %s\n", LFS_libMap_filename, native_library);
+    a64_HookMessage(HOOK_EVENT_INFO, "Opening proc map file in %s to search for %s\n", LFS_libMap_filename, native_library);
     FILE* map_file = fopen(LFS_libMap_filename, "r");
     if (map_file == nullptr) {
-        event_Sync(HOOK_EVENT_FAILED, "Can't open proc map file because %s\n", strerror(errno));
+        a64_HookMessage(HOOK_EVENT_FAILED, "Can't open proc map file because %s\n", strerror(errno));
         return false;
     }
     constexpr short MAP_FILE_DATA_SZ = 0x2ff;
@@ -64,10 +64,10 @@ bool Native_Info::find_Base_Address(const char* native_name) {
          * 7fb2cf9c2000-7fb2cf9ea000 r--p 00000000 00:19 31795                      /usr/lib/x86_64-linux-gnu/libc.so.6
          * 7fb2cf9c2000 is the base address pointer that we're trying to locate.
         */
-        event_Sync(HOOK_EVENT_INFO, "Looking at: %s\n", map_content);
+        a64_HookMessage(HOOK_EVENT_INFO, "Looking at: %s", map_content);
         if (strstr(map_content, native_library)) {
             m_Native_Addr = (Native_Addr_t)strtoul(map_content, 0, 0x10);
-            event_Sync(HOOK_EVENT_SUCCESS, "%s base address found in %#llx\n", 
+            a64_HookMessage(HOOK_EVENT_SUCCESS, "%s base address found in %#llx\n", 
                 native_library, m_Native_Addr);
             break;
         }

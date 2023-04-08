@@ -34,14 +34,14 @@ public:
 
 protected:
 
-    virtual Hook_I32_t event_Release(Hook_Event_t status, const char* message) {
+    virtual Hook_I32_t hookMessage_Release(Hook_Event_t status, const char* message) {
         /* This function should be implemented by the derivate struct or class */
         int* __cant_be_called = nullptr;
         *__cant_be_called = 0;
         return *__cant_be_called;
     }
 
-    Hook_I32_t event_Sync(const Hook_Event_t event_status, const char* format, ...);
+    Hook_I32_t a64_HookMessage(const Hook_Event_t event_status, const char* format, ...);
 
 private:
     const char* m_Native_Lib_Name = nullptr;
