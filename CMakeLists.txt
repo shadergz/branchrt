@@ -3,7 +3,9 @@ project(bra64rt)
 
 add_library(bra64rt STATIC)
 target_sources(bra64rt PRIVATE 
-    hook_info_objects.cpp)
+    hook_info_objects.cpp
+    rw_addr.cpp
+    )
 
 target_include_directories(bra64rt
     PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include

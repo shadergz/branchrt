@@ -5,7 +5,7 @@
 namespace RuntimeHook::ObjectInfo {
 
 typedef int Hook_I32_t;
-typedef uintptr_t Native_Addr_t;
+typedef uint_fast64_t Native_Addr_t;
 
 typedef enum { 
     HOOK_EVENT_SUCCESS, 
@@ -13,7 +13,7 @@ typedef enum {
     HOOK_EVENT_FAILED 
 } Hook_Event_t;
 
-struct Native_Info {
+class Native_Info {
 
 public:
     Native_Info() = default;
@@ -24,6 +24,13 @@ public:
     }
     auto get_Native_Addr() const {
         return m_Native_Addr;
+    }
+
+    Native_Addr_t make_Pointer(const uint_fast64_t libAddr);
+
+    template<typename T>
+    auto make_Object(const uint_fast64_t localAddr) {
+        return reinterpret_cast<T>(make_Pointer(localAddr));
     }
 
     bool find_Base_Address(const char* nativeName);
