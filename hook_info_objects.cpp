@@ -1,12 +1,13 @@
 #include <cstdarg>
 #include <cstring>
 #include <cstdio>
-#include <algorithm>
 
 #include <sys/types.h>
 #include <unistd.h>
 #include <fcntl.h>
 #include <errno.h>
+
+#include <algorithm>
 
 #include <bra64rt/object_native_info.h>
 
@@ -47,7 +48,7 @@ bool Native_Info::find_Base_Address(const char* native_name) {
     snprintf(LFS_libMap_filename, sizeof(LFS_libMap_filename), "/proc/%d/maps", getpid());
     #endif
 
-    a64_HookMessage(HOOK_EVENT_INFO, "Opening proc map file in %s to search for %s\n", LFS_libMap_filename, native_library);
+    a64_HookMessage(HOOK_EVENT_INFO, "Opening proc:map file in %s to search for %s\n", LFS_libMap_filename, native_library);
     FILE* map_file = fopen(LFS_libMap_filename, "r");
     if (map_file == nullptr) {
         a64_HookMessage(HOOK_EVENT_FAILED, "Can't open proc map file because %s\n", strerror(errno));
@@ -64,7 +65,10 @@ bool Native_Info::find_Base_Address(const char* native_name) {
          * 7fb2cf9c2000-7fb2cf9ea000 r--p 00000000 00:19 31795                      /usr/lib/x86_64-linux-gnu/libc.so.6
          * 7fb2cf9c2000 is the base address pointer that we're trying to locate.
         */
+        #if defined(HOOK_RT_DEBUG)
         a64_HookMessage(HOOK_EVENT_INFO, "Looking at: %s", map_content);
+        #endif
+
         if (strstr(map_content, native_library)) {
             m_Native_Addr = (Native_Addr_t)strtoul(map_content, 0, 0x10);
             a64_HookMessage(HOOK_EVENT_SUCCESS, "%s base address found in %#llx\n", 
