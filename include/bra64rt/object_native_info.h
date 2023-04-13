@@ -29,8 +29,19 @@ public:
     Native_Addr_t make_Pointer(const uint_fast64_t libAddr);
 
     template<typename T>
-    auto make_Object(const uint_fast64_t localAddr) {
+    auto inline make_Object(const uint_fast64_t localAddr) {
         return reinterpret_cast<T>(make_Pointer(localAddr));
+    }
+
+    template<typename T>
+    auto inline make_Method(const uint_fast64_t methodAddress) {
+        auto funcAddr = make_Object<uintptr_t>(methodAddress);
+        return reinterpret_cast<T*>(funcAddr);
+    }
+
+    template<typename T, typename... Args>
+    auto invoke_Method(const uint_fast64_t methodAddress, Args... method_Args) {
+       *(make_Method<T>(methodAddress))(method_Args...);
     }
 
     bool find_Base_Address(const char* nativeName);
