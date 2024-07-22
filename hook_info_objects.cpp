@@ -9,7 +9,7 @@
 
 #include <algorithm>
 
-#include <bra64rt/object_native_info.h>
+#include <branchrt/object_native_info.h>
 
 /* Almost 64 bytes are sufficiently enough to store all full pathname for the native
  * library buffer, even with a bigger native name it's provide! */

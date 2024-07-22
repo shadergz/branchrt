@@ -1,6 +1,6 @@
 #include <cstdint>
 
-#include <bra64rt/object_native_info.h>
+#include <branchrt/object_native_info.h>
 
 namespace RuntimeHook::ObjectInfo {
 
